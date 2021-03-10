@@ -1,0 +1,3174 @@
+{
+	"info": {
+		"_postman_id": "1b012ac4-cbab-40da-8b9b-4b68db8439b9",
+		"name": "Conduit",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1.0 Sign Up",
+			"item": [
+				{
+					"name": "1.1 Sign Up successful",
+					"item": [
+						{
+							"name": "1.1.1 Sign Up Successful",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');",
+											"pm.environment.set(\"username\", \"bot\" + moment().format(\"YYMMDD_HHmmssSSSS\"));",
+											"pm.environment.set(\"email\", pm.environment.get(\"username\") + \"@mailinator.com\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () ",
+											"{",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Validate response: \" + pm.environment.get(\"username\"), function()",
+											"{  ",
+											"    pm.expect(jsonData.user.username).to.eql(pm.environment.get(\"username\"))",
+											"    pm.expect(jsonData.user.email).to.eql(pm.environment.get(\"email\"))",
+											"    pm.expect(jsonData.user.id).greaterThan(0)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0",
+										"disabled": true
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user\": {\n        \"username\": \"{{username}}\",\n        \"email\": \"{{email}}\",\n        \"password\": \"Abccd1234\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/users",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "1.1.2 Sign Up Successful (Max length username, password)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');",
+											"pm.environment.set(\"username\", \"bot\" + moment().format(\"YYMMDD_HHmmssSSSS\"));",
+											"pm.environment.set(\"email\", pm.environment.get(\"username\") + \"@mailinator.com\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () ",
+											"{",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Validate response: \" + pm.environment.get(\"username\"), function()",
+											"{  ",
+											"    pm.expect(jsonData.user.username).to.eql(pm.environment.get(\"username\"))",
+											"    pm.expect(jsonData.user.email).to.eql(pm.environment.get(\"email\"))",
+											"    pm.expect(jsonData.user.id).greaterThan(0)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0",
+										"disabled": true
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user\": {\n        \"username\": \"{{username}}\",\n        \"email\": \"{{email}}\",\n        \"password\": \"1234567890123456789012345678901234567890123456789012345678901234567890Ab\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/users",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "1.2 Validation",
+					"item": [
+						{
+							"name": "1.2.1 Duplicated username",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');",
+											"pm.environment.set(\"username\", \"bot\" + moment().format(\"YYMMDD_HHmmssSSSS\"));",
+											"pm.environment.set(\"email\", pm.environment.get(\"username\") + \"@mailinator.com\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () ",
+											"{",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Duplicated email validation \", function()",
+											"{  ",
+											"    pm.expect(jsonData.errors.username[0]).to.eql(\"has already been taken\")     ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user\": {\n        \"username\": \"auto_testuser_00000\",\n        \"email\": \"{{email}}\",\n        \"password\": \"Abccd1234\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/users",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "1.2.2 Username exceeds max length 20",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');",
+											"pm.environment.set(\"username\", \"bot\" + moment().format(\"YYMMDD_HHmmssSSSS\"));",
+											"pm.environment.set(\"email\", pm.environment.get(\"username\") + \"@mailinator.com\");",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () ",
+											"{",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Duplicated email validation \", function()",
+											"{  ",
+											"    pm.expect(jsonData.errors.username[0]).to.eql(\"is too long (maximum is 20 characters)\")    ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user\": {\n        \"username\": \"1234567890123456789012345678901234567890123456789012345678901234567890Abc\",\n        \"email\": \"{{email}}\",\n        \"password\": \"Abccd1234\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/users",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "1.2.3 Password exceeds max length 20",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');",
+											"pm.environment.set(\"username\", \"bot\" + moment().format(\"YYMMDD_HHmmssSSSS\"));",
+											"pm.environment.set(\"email\", pm.environment.get(\"username\") + \"@mailinator.com\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () ",
+											"{",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Duplicated email validation \", function()",
+											"{  ",
+											"    pm.expect(jsonData.errors.password[0]).to.eql(\"is too long (maximum is 72 characters)\")    ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user\": {\n        \"username\": \"{{username}}\",\n        \"email\": \"{{email}}\",\n        \"password\": \"1234567890123456789012345678901234567890123456789012345678901234567890AbC\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/users",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "1.2.4 Duplicated email",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');",
+											"pm.environment.set(\"username\", \"bot\" + moment().format(\"YYMMDD_HHmmssSSSS\"));",
+											"pm.environment.set(\"email\", pm.environment.get(\"username\") + \"@mailinator.com\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () ",
+											"{",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Duplicated email validation \", function()",
+											"{  ",
+											"    pm.expect(jsonData.errors.email[0]).to.eql(\"has already been taken\")    ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user\": {\n        \"username\": \"{{username}}\",\n        \"email\": \"auto_testuser_00000@mailinator.com\",\n        \"password\": \"Abcd1234\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/users",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "1.2.5 Empty username",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');",
+											"pm.environment.set(\"username\", \"bot\" + moment().format(\"YYMMDD_HHmmssSSSS\"));",
+											"pm.environment.set(\"email\", pm.environment.get(\"username\") + \"@mailinator.com\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () ",
+											"{",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Duplicated email validation \", function()",
+											"{  ",
+											"    pm.expect(jsonData.errors.username[0]).to.eql(\"can't be blank\")    ",
+											"    pm.expect(jsonData.errors.username[1]).to.eql(\"is too short (minimum is 1 character)\") ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user\": {\n        \"username\": \"\",\n        \"email\": \"{{email}}\",\n        \"password\": \"Abcd1234\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/users",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "1.2.6 Empty email",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');",
+											"pm.environment.set(\"username\", \"bot\" + moment().format(\"YYMMDD_HHmmssSSSS\"));",
+											"pm.environment.set(\"email\", pm.environment.get(\"username\") + \"@mailinator.com\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () ",
+											"{",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Duplicated email validation \", function()",
+											"{  ",
+											"    pm.expect(jsonData.errors.email[0]).to.eql(\"can't be blank\")    ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user\": {\n        \"username\": \"{{username}}\",\n        \"email\": \"\",\n        \"password\": \"Abcd1234\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/users",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "1.2.7 Empty password",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');",
+											"pm.environment.set(\"username\", \"bot\" + moment().format(\"YYMMDD_HHmmssSSSS\"));",
+											"pm.environment.set(\"email\", pm.environment.get(\"username\") + \"@mailinator.com\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () ",
+											"{",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Duplicated email validation \", function()",
+											"{  ",
+											"    pm.expect(jsonData.errors.password[0]).to.eql(\"can't be blank\")    ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user\": {\n        \"username\": \"{{username}}\",\n        \"email\": \"{{email}}\",\n        \"password\": \"\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/users",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "1.2.8 Invalid email format",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');",
+											"pm.environment.set(\"username\", \"bot\" + moment().format(\"YYMMDD_HHmmssSSSS\"));",
+											"pm.environment.set(\"email\", pm.environment.get(\"username\") + \"@mailinator.com\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () ",
+											"{",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Duplicated email validation \", function()",
+											"{  ",
+											"    pm.expect(jsonData.errors.email[0]).to.eql(\"is invalid\")    ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user\": {\n        \"username\": \"{{username}}\",\n        \"email\": \"bad_email\",\n        \"password\": \"Abcd1234\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/users",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "2.0 Login",
+			"item": [
+				{
+					"name": "2.1 Login successful",
+					"item": [
+						{
+							"name": "2.1.1 Login successful",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () \r",
+											"{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validate response: auto_testuser_10000\", function()\r",
+											"{  \r",
+											"    pm.expect(jsonData.user.username).to.eql(\"auto_testuser_10000\")\r",
+											"    pm.expect(jsonData.user.email).to.eql(\"auto_testuser_00000@mailinator.com\")\r",
+											"    pm.expect(jsonData.user.id).greaterThan(0)\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": {\r\n        \"email\": \"auto_testuser_00000@mailinator.com\",\r\n        \"password\": \"Abcd1234\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/users/login",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2.1.2 Login successful (Max length password)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () \r",
+											"{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validate response: auto_testuser_10000\", function()\r",
+											"{  \r",
+											"    pm.expect(jsonData.user.username).to.eql(\"auto_testuser_20000\")\r",
+											"    pm.expect(jsonData.user.email).to.eql(\"auto_testuser_20000@mailinator.com\")\r",
+											"    pm.expect(jsonData.user.id).greaterThan(0)\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": {\r\n        \"email\": \"auto_testuser_20000@mailinator.com\",\r\n        \"password\": \"1234567890123456789012345678901234567890123456789012345678901234567890Ab\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/users/login",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "2.2 Validation",
+					"item": [
+						{
+							"name": "2.2.1 Empty email",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () \r",
+											"{\r",
+											"    pm.response.to.have.status(422);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validation \", function()\r",
+											"{  \r",
+											"    pm.expect(jsonData.errors[\"email or password\"][0]).to.eql(\"is invalid\")     \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": {\r\n        \"email\": \"\",\r\n        \"password\": \"Abcd1234\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/users/login",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2.2.2 Empty password",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () \r",
+											"{\r",
+											"    pm.response.to.have.status(422);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validation \", function()\r",
+											"{  \r",
+											"    pm.expect(jsonData.errors[\"email or password\"][0]).to.eql(\"is invalid\")     \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": {\r\n        \"email\": \"auto_testuser_00000@mailinator.com\",\r\n        \"password\": \"\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/users/login",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2.2.3 Wrong password",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () \r",
+											"{\r",
+											"    pm.response.to.have.status(422);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validation \", function()\r",
+											"{  \r",
+											"    pm.expect(jsonData.errors[\"email or password\"][0]).to.eql(\"is invalid\")     \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": {\r\n        \"email\": \"auto_testuser_00000@mailinator.com\",\r\n        \"password\": \"Abcd1234XYZ\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/users/login",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "3.0 Update Profile",
+			"item": [
+				{
+					"name": "3.1 Update Profile successful",
+					"item": [
+						{
+							"name": "3.1.1 Update All fields",
+							"item": [
+								{
+									"name": "3.1.1.1 Sign Up Successful",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const moment = require('moment');",
+													"pm.environment.set(\"to_update_username\", \"bot\" + moment().format(\"YYMMDD_HHmmssSSSS\"));",
+													"pm.environment.set(\"to_update_email\", pm.environment.get(\"to_update_username\") + \"@mailinator.com\");",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () ",
+													"{",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"const jsonData = pm.response.json();",
+													"",
+													"pm.test(\"Validate response: \" + pm.environment.get(\"to_update_username\"), function()",
+													"{  ",
+													"    pm.expect(jsonData.user.username).to.eql(pm.environment.get(\"to_update_username\"))",
+													"    pm.expect(jsonData.user.email).to.eql(pm.environment.get(\"to_update_email\"))",
+													"    pm.expect(jsonData.user.id).greaterThan(0)",
+													"});",
+													"",
+													"//Caching target user info for update testing",
+													"pm.environment.set(\"new_user_token\", jsonData.user.token)",
+													"pm.environment.set(\"new_username\", jsonData.user.username)",
+													"pm.environment.set(\"to_update_image\", jsonData.user.token)",
+													"pm.environment.set(\"to_update_bio\", jsonData.user.token)",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "sec-ch-ua",
+												"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+											},
+											{
+												"key": "sec-ch-ua-mobile",
+												"value": "?0",
+												"disabled": true
+											},
+											{
+												"key": "User-Agent",
+												"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"user\": {\n        \"username\": \"{{to_update_username}}\",\n        \"email\": \"{{to_update_email}}\",\n        \"password\": \"Abccd1234\"\n    }\n}"
+										},
+										"url": {
+											"raw": "https://conduit.productionready.io/api/users",
+											"protocol": "https",
+											"host": [
+												"conduit",
+												"productionready",
+												"io"
+											],
+											"path": [
+												"api",
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "3.1.1.2 Update Profile (All fields)",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const moment = require('moment');\r",
+													"pm.environment.set(\"update_new_username\", \"new\" + moment().format(\"YYMMDD_HHmmssSSSS\"));\r",
+													"pm.environment.set(\"update_new_email\", pm.environment.get(\"update_new_username\") + \"@mailinator.com\");"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () \r",
+													"{\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"const jsonData = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Validate response: \" + pm.environment.get(\"update_new_username\"), function()\r",
+													"{  \r",
+													"    pm.expect(jsonData.user.image).to.eql(\"https://i.imgur.com/RFk9hgO.gif\")\r",
+													"    pm.expect(jsonData.user.username).to.eql(pm.environment.get(\"update_new_username\"))\r",
+													"    pm.expect(jsonData.user.email).to.eql(pm.environment.get(\"update_new_email\"))\r",
+													"    pm.expect(jsonData.user.bio).to.eql(\"I'm a bot not a droid\")\r",
+													"    pm.expect(jsonData.user.id).greaterThan(0)\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "sec-ch-ua",
+												"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+											},
+											{
+												"key": "authorization",
+												"value": "Token {{new_user_token}}"
+											},
+											{
+												"key": "sec-ch-ua-mobile",
+												"value": "?0"
+											},
+											{
+												"key": "User-Agent",
+												"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"image\": \"https://i.imgur.com/RFk9hgO.gif\",\r\n        \"username\": \"{{update_new_username}}\",\r\n        \"bio\": \"I'm a bot not a droid\",\r\n        \"email\": \"{{update_new_email}}\"\r\n    }\r\n}"
+										},
+										"url": {
+											"raw": "https://conduit.productionready.io/api/user",
+											"protocol": "https",
+											"host": [
+												"conduit",
+												"productionready",
+												"io"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "3.1.1.3 Update Profile (username, and email only)",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const moment = require('moment');\r",
+													"pm.environment.set(\"update_new_username\", \"2nd\" + moment().format(\"YYMMDD_HHmmssSSSS\"));\r",
+													"pm.environment.set(\"update_new_email\", pm.environment.get(\"update_new_username\") + \"@mailinator.com\");"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () \r",
+													"{\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"const jsonData = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Validate response: \" + pm.environment.get(\"update_new_username\"), function()\r",
+													"{  \r",
+													"    pm.expect(jsonData.user.image).to.eql(\"https://i.imgur.com/RFk9hgO.gif\")\r",
+													"    pm.expect(jsonData.user.username).to.eql(pm.environment.get(\"update_new_username\"))\r",
+													"    pm.expect(jsonData.user.email).to.eql(pm.environment.get(\"update_new_email\"))\r",
+													"    pm.expect(jsonData.user.bio).to.eql(\"I'm a bot not a droid\")\r",
+													"    pm.expect(jsonData.user.id).greaterThan(0)\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "sec-ch-ua",
+												"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+											},
+											{
+												"key": "authorization",
+												"value": "Token {{new_user_token}}"
+											},
+											{
+												"key": "sec-ch-ua-mobile",
+												"value": "?0"
+											},
+											{
+												"key": "User-Agent",
+												"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"image\": \"https://i.imgur.com/RFk9hgO.gif\",\r\n        \"username\": \"{{update_new_username}}\",\r\n        \"bio\": \"I'm a bot not a droid\",\r\n        \"email\": \"{{update_new_email}}\"\r\n    }\r\n}"
+										},
+										"url": {
+											"raw": "https://conduit.productionready.io/api/user",
+											"protocol": "https",
+											"host": [
+												"conduit",
+												"productionready",
+												"io"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "3.1.1.4 Update Profile (email only)",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const moment = require('moment');\r",
+													"\r",
+													"pm.environment.set(\"update_new_email\", \"3rd\" + pm.environment.get(\"update_new_username\") + \"@mailinator.com\");"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () \r",
+													"{\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"const jsonData = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Validate response: \" + pm.environment.get(\"update_new_username\"), function()\r",
+													"{  \r",
+													"    pm.expect(jsonData.user.image).to.eql(\"\")\r",
+													"    pm.expect(jsonData.user.username).to.eql(pm.environment.get(\"update_new_username\"))\r",
+													"    pm.expect(jsonData.user.email).to.eql(pm.environment.get(\"update_new_email\"))\r",
+													"    pm.expect(jsonData.user.bio).to.eql(\"\")\r",
+													"    pm.expect(jsonData.user.id).greaterThan(0)\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "sec-ch-ua",
+												"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+											},
+											{
+												"key": "authorization",
+												"value": "Token {{new_user_token}}"
+											},
+											{
+												"key": "sec-ch-ua-mobile",
+												"value": "?0"
+											},
+											{
+												"key": "User-Agent",
+												"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"image\": \"\",\r\n        \"username\": \"{{update_new_username}}\",\r\n        \"bio\": \"\",\r\n        \"email\": \"{{update_new_email}}\"\r\n    }\r\n}"
+										},
+										"url": {
+											"raw": "https://conduit.productionready.io/api/user",
+											"protocol": "https",
+											"host": [
+												"conduit",
+												"productionready",
+												"io"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "3.1.1.5 Update Profile (username only)",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const moment = require('moment');\r",
+													"pm.environment.set(\"update_new_username\", \"4th\" + moment().format(\"YYMMDD_HHmmssSSSS\"));\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () \r",
+													"{\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"const jsonData = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Validate response: \" + pm.environment.get(\"update_new_username\"), function()\r",
+													"{  \r",
+													"    pm.expect(jsonData.user.image).to.eql(\"\")\r",
+													"    pm.expect(jsonData.user.username).to.eql(pm.environment.get(\"update_new_username\"))\r",
+													"    pm.expect(jsonData.user.email).to.eql(pm.environment.get(\"update_new_email\"))\r",
+													"    pm.expect(jsonData.user.bio).to.eql(\"\")\r",
+													"    pm.expect(jsonData.user.id).greaterThan(0)\r",
+													"});\r",
+													"\r",
+													"//Cache new updated username for New Post testing\r",
+													"pm.environment.set(\"new_username\", jsonData.user.username)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "sec-ch-ua",
+												"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+											},
+											{
+												"key": "authorization",
+												"value": "Token {{new_user_token}}"
+											},
+											{
+												"key": "sec-ch-ua-mobile",
+												"value": "?0"
+											},
+											{
+												"key": "User-Agent",
+												"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"image\": \"\",\r\n        \"username\": \"{{update_new_username}}\",\r\n        \"bio\": \"\",\r\n        \"email\": \"{{update_new_email}}\"\r\n    }\r\n}"
+										},
+										"url": {
+											"raw": "https://conduit.productionready.io/api/user",
+											"protocol": "https",
+											"host": [
+												"conduit",
+												"productionready",
+												"io"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "3.2 Validation",
+					"item": [
+						{
+							"name": "3.1.1.2 Duplicate username",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');\r",
+											"pm.environment.set(\"update_new_username\", \"new\" + moment().format(\"YYMMDD_HHmmssSSSS\"));\r",
+											"pm.environment.set(\"update_new_email\", pm.environment.get(\"update_new_username\") + \"@mailinator.com\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () \r",
+											"{\r",
+											"    pm.response.to.have.status(422);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validation \", function()\r",
+											"{  \r",
+											"    pm.expect(jsonData.errors.username[0]).to.eql(\"has already been taken\")     \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "authorization",
+										"value": "Token {{new_user_token}}"
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": {\r\n        \"image\": \"https://i.imgur.com/RFk9hgO.gif\",\r\n        \"username\": \"auto_testuser_00000\",\r\n        \"bio\": \"I'm a bot not a droid\",\r\n        \"email\": \"{{update_new_email}}\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/user",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3.1.1.2 Duplicate email",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');\r",
+											"pm.environment.set(\"update_new_username\", \"new\" + moment().format(\"YYMMDD_HHmmssSSSS\"));\r",
+											"pm.environment.set(\"update_new_email\", pm.environment.get(\"update_new_username\") + \"@mailinator.com\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () \r",
+											"{\r",
+											"    pm.response.to.have.status(422);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validation\", function()\r",
+											"{  \r",
+											"    pm.expect(jsonData.errors.email[0]).to.eql(\"has already been taken\")     \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "authorization",
+										"value": "Token {{new_user_token}}"
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": {\r\n        \"image\": \"https://i.imgur.com/RFk9hgO.gif\",\r\n        \"username\": \"{{update_new_username}}\",\r\n        \"bio\": \"I'm a bot not a droid\",\r\n        \"email\": \"auto_testuser_00000@mailinator.com\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/user",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3.1.1.3 Exceeds username max 20 length",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');\r",
+											"pm.environment.set(\"update_new_username\", \"new_\" + moment().format(\"YYMMDD_HHmmssSSSS\"));\r",
+											"pm.environment.set(\"update_new_email\", pm.environment.get(\"update_new_username\") + \"@mailinator.com\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () \r",
+											"{\r",
+											"    pm.response.to.have.status(422);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validation\", function()\r",
+											"{  \r",
+											"    pm.expect(jsonData.errors.username[0]).to.eql(\"is too long (maximum is 20 characters)\")     \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "authorization",
+										"value": "Token {{new_user_token}}"
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": {\r\n        \"image\": \"https://i.imgur.com/RFk9hgO.gif\",\r\n        \"username\": \"{{update_new_username}}\",\r\n        \"bio\": \"I'm a bot not a droid\",\r\n        \"email\": \"{{update_new_email}}\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/user",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3.1.1.4 Invalid email format",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');\r",
+											"pm.environment.set(\"update_new_username\", \"new\" + moment().format(\"YYMMDD_HHmmssSSSS\"));\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () \r",
+											"{\r",
+											"    pm.response.to.have.status(422);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validation\", function()\r",
+											"{  \r",
+											"    pm.expect(jsonData.errors.email[0]).to.eql(\"is invalid\")     \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "authorization",
+										"value": "Token {{new_user_token}}"
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": {\r\n        \"image\": \"https://i.imgur.com/RFk9hgO.gif\",\r\n        \"username\": \"{{update_new_username}}\",\r\n        \"bio\": \"I'm a bot not a droid\",\r\n        \"email\": \"bad_email\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/user",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3.1.1.5 Empty email",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');\r",
+											"pm.environment.set(\"update_new_username\", \"new\" + moment().format(\"YYMMDD_HHmmssSSSS\"));\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () \r",
+											"{\r",
+											"    pm.response.to.have.status(422);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validation\", function()\r",
+											"{  \r",
+											"    pm.expect(jsonData.errors.email[0]).to.eql(\"can't be blank\")     \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "authorization",
+										"value": "Token {{new_user_token}}"
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": {\r\n        \"image\": \"https://i.imgur.com/RFk9hgO.gif\",\r\n        \"username\": \"{{update_new_username}}\",\r\n        \"bio\": \"I'm a bot not a droid\",\r\n        \"email\": \"\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/user",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3.1.1.6 Empty username",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');\r",
+											"pm.environment.set(\"update_new_username\", \"new_\" + moment().format(\"YYMMDD_HHmmssSSSS\"));\r",
+											"pm.environment.set(\"update_new_email\", pm.environment.get(\"update_new_username\") + \"@mailinator.com\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () \r",
+											"{\r",
+											"    pm.response.to.have.status(422);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validation\", function()\r",
+											"{  \r",
+											"    pm.expect(jsonData.errors.username[0]).to.eql(\"can't be blank\")     \r",
+											"    pm.expect(jsonData.errors.username[1]).to.eql(\"is too short (minimum is 1 character)\")  \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "authorization",
+										"value": "Token {{new_user_token}}"
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": {\r\n        \"image\": \"https://i.imgur.com/RFk9hgO.gif\",\r\n        \"username\": \"\",\r\n        \"bio\": \"I'm a bot not a droid\",\r\n        \"email\": \"{{update_new_email}}\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/user",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"user"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "4.0 New Post",
+			"item": [
+				{
+					"name": "4.1 Post successful",
+					"item": [
+						{
+							"name": "4.1.1 New Post (All fields)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');",
+											"var unique_timestamp = moment().format(\"YYMMDD_HHmmssSSSS\")",
+											"pm.environment.set(\"new_title\", \"Test comment \" + unique_timestamp);",
+											"pm.environment.set(\"new_desc\", \"Test description \" + unique_timestamp);",
+											"pm.environment.set(\"new_markdown\", \"Test markdown \" + unique_timestamp);",
+											"pm.environment.set(\"new_tags\", \"test_tag\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () ",
+											"{",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Validate article info\", function()",
+											"{  ",
+											"    pm.expect(jsonData.article.title).to.eql(pm.environment.get(\"new_title\"))",
+											"    pm.expect(jsonData.article.description).to.eql(pm.environment.get(\"new_desc\"))",
+											"    pm.expect(jsonData.article.body).to.eql(pm.environment.get(\"new_markdown\"))",
+											"    pm.expect(jsonData.article.tagList.length).eql(1)",
+											"    pm.expect(jsonData.article.tagList[1]).eql(pm.environment.get(\"new_tags\"))",
+											"});",
+											"",
+											"pm.test(\"Validate author username\", function()",
+											"{ ",
+											"    pm.expect(jsonData.article.author.username).to.eql(pm.environment.get(\"new_username\"))",
+											"});",
+											"",
+											"pm.environment.set(\"to_comment_articleId\", jsonData.article.slug);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "authorization",
+										"value": "Token {{new_user_token}}"
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"article\": {\n        \"title\": \"{{new_title}}\",\n        \"description\": \"{{new_desc}}\",\n        \"body\": \"{{new_markdown}}\",\n        \"tagList\": \"{{new_tags}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/articles",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"articles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4.1.2 New Post (Without tags only)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');",
+											"var unique_timestamp = moment().format(\"YYMMDD_HHmmssSSSS\")",
+											"pm.environment.set(\"new_title\", \"Test comment \" + unique_timestamp);",
+											"pm.environment.set(\"new_desc\", \"Test descriptiton \" + unique_timestamp);",
+											"pm.environment.set(\"new_markdown\", \"Test markdown \" + unique_timestamp);",
+											"pm.environment.set(\"new_tags\", \"test_tag\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () ",
+											"{",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Validation\", function()",
+											"{  ",
+											"    pm.expect(jsonData.article.title).to.eql(pm.environment.get(\"new_title\"))",
+											"    pm.expect(jsonData.article.description).to.eql(pm.environment.get(\"new_desc\"))",
+											"    pm.expect(jsonData.article.body).to.eql(pm.environment.get(\"new_markdown\"))",
+											"    pm.expect(jsonData.article.tagList.length).eql(0)",
+											"});",
+											"",
+											"pm.test(\"Validate author username\", function()",
+											"{ ",
+											"    pm.expect(jsonData.article.author.username).to.eql(pm.environment.get(\"new_username\"))",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "authorization",
+										"value": "Token {{new_user_token}}"
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"article\": {\n        \"title\": \"{{new_title}}\",\n        \"description\": \"{{new_desc}}\",\n        \"body\": \"{{new_markdown}}\",\n        \"tagList\": \"\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/articles",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"articles"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "4.2 Validation",
+					"item": [
+						{
+							"name": "4.2.1 Empty Title",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');",
+											"var unique_timestamp = moment().format(\"YYMMDD_HHmmssSSSS\")",
+											"pm.environment.set(\"new_title\", \"Test comment \" + unique_timestamp);",
+											"pm.environment.set(\"new_desc\", \"Test descriptiton \" + unique_timestamp);",
+											"pm.environment.set(\"new_markdown\", \"Test markdown \" + unique_timestamp);",
+											"pm.environment.set(\"new_tags\", \"test_tag\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () ",
+											"{",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Validation\", function()",
+											"{  ",
+											"    pm.expect(jsonData.errors.title[0]).to.eql(\"can't be blank\")",
+											"    pm.expect(jsonData.errors.title[1]).to.eql(\"is too short (minimum is 1 character)\")     ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "authorization",
+										"value": "Token {{new_user_token}}"
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"article\": {\n        \"title\": \"\",\n        \"description\": \"{{new_desc}}\",\n        \"body\": \"{{new_markdown}}\",\n        \"tagList\": \"{{new_tags}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/articles",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"articles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4.2.2 Empty Description",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');",
+											"var unique_timestamp = moment().format(\"YYMMDD_HHmmssSSSS\")",
+											"pm.environment.set(\"new_title\", \"Test comment \" + unique_timestamp);",
+											"pm.environment.set(\"new_desc\", \"Test descriptiton \" + unique_timestamp);",
+											"pm.environment.set(\"new_markdown\", \"Test markdown \" + unique_timestamp);",
+											"pm.environment.set(\"new_tags\", \"test_tag\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () ",
+											"{",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Validation\", function()",
+											"{  ",
+											"    pm.expect(jsonData.errors.description[0]).to.eql(\"can't be blank\")",
+											"    pm.expect(jsonData.errors.description[1]).to.eql(\"is too short (minimum is 1 character)\")     ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "authorization",
+										"value": "Token {{new_user_token}}"
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"article\": {\n        \"title\": \"{{new_title}}\",\n        \"description\": \"\",\n        \"body\": \"{{new_markdown}}\",\n        \"tagList\": \"{{new_tags}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/articles",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"articles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4.2.3 Empty Markdown",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');",
+											"var unique_timestamp = moment().format(\"YYMMDD_HHmmssSSSS\")",
+											"pm.environment.set(\"new_title\", \"Test comment \" + unique_timestamp);",
+											"pm.environment.set(\"new_desc\", \"Test descriptiton \" + unique_timestamp);",
+											"pm.environment.set(\"new_markdown\", \"Test markdown \" + unique_timestamp);",
+											"pm.environment.set(\"new_tags\", \"test_tag\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () ",
+											"{",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Validation\", function()",
+											"{  ",
+											"    pm.expect(jsonData.errors.body[0]).to.eql(\"can't be blank\")    ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "authorization",
+										"value": "Token {{new_user_token}}"
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"article\": {\n        \"title\": \"{{new_title}}\",\n        \"description\": \"{{new_desc}}\",\n        \"body\": \"\",\n        \"tagList\": \"{{new_tags}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/articles",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"articles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4.2.4 Title exceeds max 200 length",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');",
+											"var unique_timestamp = moment().format(\"YYMMDD_HHmmssSSSS\")",
+											"pm.environment.set(\"new_title\", \"Test comment \" + unique_timestamp);",
+											"pm.environment.set(\"new_desc\", \"Test descriptiton \" + unique_timestamp);",
+											"pm.environment.set(\"new_markdown\", \"Test markdown \" + unique_timestamp);",
+											"pm.environment.set(\"new_tags\", \"test_tag\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () ",
+											"{",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Validation\", function()",
+											"{  ",
+											"    pm.expect(jsonData.errors.title[0]).to.eql(\"is too long (maximum is 200 characters)\")",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "authorization",
+										"value": "Token {{new_user_token}}"
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"article\": {\n        \"title\": \"Ca1FXved8xm7da0z1AvF1v14L5vHjKXTMY2dcxM1GWKdHZboB1nIto3kgZa8zkqLNjF3v41RGcs4xaMuNyid2pRfKgseWFvKXCZGWuQkx18ioHOo1jtrts1fGJHpdRuxlgoowTwmIGUoJCzklhurF9bVGHs36rlLIf2bw4Yp3xNqxZPyW95hcuu9TuIijtwVpvwp9zl5O\",\n        \"description\": \"{{new_desc}}\",\n        \"body\": \"{{new_markdown}}\",\n        \"tagList\": \"{{new_tags}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/articles",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"articles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4.2.5 Description exceeds max 500 length",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');",
+											"var unique_timestamp = moment().format(\"YYMMDD_HHmmssSSSS\")",
+											"pm.environment.set(\"new_title\", \"Test comment \" + unique_timestamp);",
+											"pm.environment.set(\"new_desc\", \"Test descriptiton \" + unique_timestamp);",
+											"pm.environment.set(\"new_markdown\", \"Test markdown \" + unique_timestamp);",
+											"pm.environment.set(\"new_tags\", \"test_tag\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () ",
+											"{",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Validation\", function()",
+											"{  ",
+											"    pm.expect(jsonData.errors.description[0]).to.eql(\"is too long (maximum is 500 characters)\")",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "authorization",
+										"value": "Token {{new_user_token}}"
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"article\": {\n        \"title\": \"{{new_title}}\",\n        \"description\": \"l82Qm6ZZDkzels7Gs8nGfyEF3KXzbSf93eKw0DFotGISY1lwx5yajPEezVxhHKnA3frbpbNzrZ9iZL1UtEeZyMD4kCdzjoQQhWLOBRrGabwjJwx3MUxxtaxfj1EqHSjT55gt97IKSOx5Gn1mu31Q00DAs3fHZPe44MPb5OFY5IuiGxYE5YQfMUEKevqbD4HRVEbD1uOim63PSSFBOKKwWDdgJvTEX0OXPoiBrQR9g0NwiL42cpBdnfzbPQNxPTgvHOoqA77ZcSC0QVqwKfxLpcSOWHAHQYUnB4WNLpQvJAxfuYERqyfLDwkwNmDhWPFnRCaNl8I3bVKj7fvtJ4rcyo8Me25tACzUJuW2wn7oyGqdcZLzWfd7yhbMSwMTfO0ceqkAcPenRmWd8gU5Df5cbGCc2dEVz25UIlN7viXRQOVQoiug6RrNmA5VGMVRcVSnaRRQQ9Y9mufTeJjJq1Q1NOLHE28SeKWcvvVamhHrqEl60N6zrZnIo\",\n        \"body\": \"{{new_markdown}}\",\n        \"tagList\": \"{{new_tags}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/articles",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"articles"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "5.0 New Comment",
+			"item": [
+				{
+					"name": "5.1 Create comment successful",
+					"item": [
+						{
+							"name": "5.1.1 New Comment on Article page by Title ID",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');\r",
+											"pm.environment.set(\"new_comment\", \"Test comment 1\" + moment().format(\"YYMMDD_HHmmssSSSS\"));\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () \r",
+											"{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validation\", function()\r",
+											"{  \r",
+											"    pm.expect(jsonData.comment.body).to.eql(pm.environment.get(\"new_comment\"))\r",
+											"    pm.expect(jsonData.comment.author.username).to.eql(pm.environment.get(\"new_username\"))\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "authorization",
+										"value": "Token {{new_user_token}}"
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"comment\": {\r\n        \"body\": \"{{new_comment}}\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/articles/{{to_comment_articleId}}/comments",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"articles",
+										"{{to_comment_articleId}}",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "5.1.2 View Comment by Article Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () \r",
+											"{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validation\", function()\r",
+											"{ \r",
+											"    pm.expect(jsonData.comments[0].body).to.eql(pm.environment.get(\"new_comment\"))\r",
+											"    pm.expect(jsonData.comments[0].author.username).to.eql(pm.environment.get(\"new_username\"))\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "authorization",
+										"value": "Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTQ2NTIzLCJ1c2VybmFtZSI6ImF1dG9fdGVzdHVzZXJfMDAwMDAiLCJleHAiOjE2MjAzMDc2Mjd9.M6MXyyYlLoCLjZMyF7sQhq6OghbJ5F5SyYlUp1QvRIw"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "https://conduit.productionready.io/api/articles/{{to_comment_articleId}}/comments",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"articles",
+										"{{to_comment_articleId}}",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "5.2 Validation",
+					"item": [
+						{
+							"name": "5.2.1 Empty Comment",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');\r",
+											"pm.environment.set(\"new_comment\", \"Test comment 1\" + moment().format(\"YYMMDD_HHmmssSSSS\"));\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () \r",
+											"{\r",
+											"    pm.response.to.have.status(422);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validation\", function()\r",
+											"{  \r",
+											"    pm.expect(jsonData.errors.body[0]).to.eql(\"can't be blank\")\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+									},
+									{
+										"key": "authorization",
+										"value": "Token {{new_user_token}}"
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"comment\": {\r\n        \"body\": \"\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "https://conduit.productionready.io/api/articles/{{to_comment_articleId}}/comments",
+									"protocol": "https",
+									"host": [
+										"conduit",
+										"productionready",
+										"io"
+									],
+									"path": [
+										"api",
+										"articles",
+										"{{to_comment_articleId}}",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "6.0 Top Articles",
+			"item": [
+				{
+					"name": "6.0 Top Articles",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () \r",
+									"{\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Validation articles count returned\", function()\r",
+									"{  \r",
+									"    pm.expect(jsonData.articles.length).to.eql(pm.environment.get(\"limit\"))\r",
+									"});\r",
+									"\r",
+									"var found = false;\r",
+									"for(var i = 0; i < jsonData.articles.length; i++)\r",
+									"{\r",
+									"    if(jsonData.articles[i].slug === (pm.environment.get(\"to_comment_articleId\")))\r",
+									"    {\r",
+									"        found = true;\r",
+									"        pm.expect(jsonData.articles[i].title).to.eql(pm.environment.get(\"new_title\"))\r",
+									"        pm.expect(jsonData.articles[i].body).to.eql(pm.environment.get(\"new_markdown\"))\r",
+									"        pm.expect(jsonData.articles[i].description).to.eql(pm.environment.get(\"new_desc\"))\r",
+									"        pm.expect(jsonData.articles[i].author.username).to.eql(pm.environment.get(\"new_username\"))\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Validation target article found\", function()\r",
+									"{  \r",
+									"    pm.expect(found).to.eql(true)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const moment = require('moment');\r",
+									"pm.environment.set(\"limit\", 30);\r",
+									"pm.environment.set(\"offset\", 0);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+							},
+							{
+								"key": "User-Agent",
+								"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?0"
+							},
+							{
+								"key": "authorization",
+								"value": "Token {{new_user_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "https://conduit.productionready.io/api/articles?limit={{limit}}&{{offset}}=0",
+							"protocol": "https",
+							"host": [
+								"conduit",
+								"productionready",
+								"io"
+							],
+							"path": [
+								"api",
+								"articles"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "{{limit}}"
+								},
+								{
+									"key": "{{offset}}",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
